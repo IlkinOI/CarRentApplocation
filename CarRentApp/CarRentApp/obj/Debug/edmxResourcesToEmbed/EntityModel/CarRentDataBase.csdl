@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CarRentModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="CarRentEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Administrators" EntityType="CarRentModel.Administrators" />
+    <EntitySet Name="AvailableCars" EntityType="CarRentModel.AvailableCars" />
+    <EntitySet Name="CarNames" EntityType="CarRentModel.CarNames" />
+    <EntitySet Name="CarsOnRent" EntityType="CarRentModel.CarsOnRent" />
+    <EntitySet Name="Customers" EntityType="CarRentModel.Customers" />
+    <AssociationSet Name="FK_AvailableCars_Administrators1" Association="CarRentModel.FK_AvailableCars_Administrators1">
+      <End Role="Administrators" EntitySet="Administrators" />
+      <End Role="AvailableCars" EntitySet="AvailableCars" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AvailableCars_CarNames" Association="CarRentModel.FK_AvailableCars_CarNames">
+      <End Role="CarNames" EntitySet="CarNames" />
+      <End Role="AvailableCars" EntitySet="AvailableCars" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CarsOnRent_AvailableCars" Association="CarRentModel.FK_CarsOnRent_AvailableCars">
+      <End Role="AvailableCars" EntitySet="AvailableCars" />
+      <End Role="CarsOnRent" EntitySet="CarsOnRent" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CarsOnRent_Customers" Association="CarRentModel.FK_CarsOnRent_Customers">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="CarsOnRent" EntitySet="CarsOnRent" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Administrators">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Surname" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Username" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Identification" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="AddedEditedBy" Type="Int32" />
+    <NavigationProperty Name="AvailableCars" Relationship="CarRentModel.FK_AvailableCars_Administrators1" FromRole="Administrators" ToRole="AvailableCars" />
+  </EntityType>
+  <EntityType Name="AvailableCars">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Model" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Engine" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="Year" Type="Int32" />
+    <Property Name="RegNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="CarNameId" Type="Int32" />
+    <Property Name="AdminId" Type="Int32" />
+    <Property Name="EditedAddedBy" Type="Int32" />
+    <NavigationProperty Name="Administrators" Relationship="CarRentModel.FK_AvailableCars_Administrators1" FromRole="AvailableCars" ToRole="Administrators" />
+    <NavigationProperty Name="CarNames" Relationship="CarRentModel.FK_AvailableCars_CarNames" FromRole="AvailableCars" ToRole="CarNames" />
+    <NavigationProperty Name="CarsOnRent" Relationship="CarRentModel.FK_CarsOnRent_AvailableCars" FromRole="AvailableCars" ToRole="CarsOnRent" />
+  </EntityType>
+  <EntityType Name="CarNames">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AvailableCars" Relationship="CarRentModel.FK_AvailableCars_CarNames" FromRole="CarNames" ToRole="AvailableCars" />
+  </EntityType>
+  <EntityType Name="CarsOnRent">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AvailableCarsId" Type="Int32" />
+    <Property Name="CustomerId" Type="Int32" />
+    <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="RentalDate" Type="DateTime" Precision="3" />
+    <Property Name="ReturnDate" Type="DateTime" Precision="3" />
+    <Property Name="AcceptedDate" Type="DateTime" Precision="3" />
+    <Property Name="EditedAddedBy" Type="Int32" />
+    <NavigationProperty Name="AvailableCars" Relationship="CarRentModel.FK_CarsOnRent_AvailableCars" FromRole="CarsOnRent" ToRole="AvailableCars" />
+    <NavigationProperty Name="Customers" Relationship="CarRentModel.FK_CarsOnRent_Customers" FromRole="CarsOnRent" ToRole="Customers" />
+  </EntityType>
+  <EntityType Name="Customers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Surname" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Identification" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="EditedAddedBy" Type="Int32" />
+    <NavigationProperty Name="CarsOnRent" Relationship="CarRentModel.FK_CarsOnRent_Customers" FromRole="Customers" ToRole="CarsOnRent" />
+  </EntityType>
+  <Association Name="FK_AvailableCars_Administrators1">
+    <End Type="CarRentModel.Administrators" Role="Administrators" Multiplicity="0..1" />
+    <End Type="CarRentModel.AvailableCars" Role="AvailableCars" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Administrators">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AvailableCars">
+        <PropertyRef Name="AdminId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AvailableCars_CarNames">
+    <End Type="CarRentModel.CarNames" Role="CarNames" Multiplicity="0..1" />
+    <End Type="CarRentModel.AvailableCars" Role="AvailableCars" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarNames">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AvailableCars">
+        <PropertyRef Name="CarNameId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CarsOnRent_AvailableCars">
+    <End Type="CarRentModel.AvailableCars" Role="AvailableCars" Multiplicity="0..1" />
+    <End Type="CarRentModel.CarsOnRent" Role="CarsOnRent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AvailableCars">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CarsOnRent">
+        <PropertyRef Name="AvailableCarsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CarsOnRent_Customers">
+    <End Type="CarRentModel.Customers" Role="Customers" Multiplicity="0..1" />
+    <End Type="CarRentModel.CarsOnRent" Role="CarsOnRent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CarsOnRent">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
